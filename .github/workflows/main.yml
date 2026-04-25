@@ -21,4 +21,4 @@ jobs:
 
    - name: Run Bandit Scan
    # where bandit will scan ( . means in current folder )
-     run: bandit -r .
+     run: bandit  -ll -ii -r .
