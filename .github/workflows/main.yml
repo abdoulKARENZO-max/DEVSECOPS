@@ -24,3 +24,10 @@ jobs:
    - name: Run Bandit Scan
    # where bandit will scan ( . means in current folder )
      run: bandit -ll -ii -r . -f json -o bandit-report.json
+     # upload the bandit-report.json file as an artifact to be used in the next steps
+   - name: Upload Artifact
+     uses: actions/upload-artifact@v3
+     if: always()
+     with:
+      name: bandit-findings
+      path: bandit-report.json
