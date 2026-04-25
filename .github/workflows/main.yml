@@ -1,26 +1,20 @@
 # This is a basic workflow to help you get started with Actions as it give the reuslt of low, medium and high vulnerabilities in your code. You can modify this workflow as per your needs.
 # this workflow is weak as we only need to view high and critical vulnerabilities but here we are also getting low and medium vulnerabilities which is not required. So we will modify this workflow in next file.
 name: CI
-
 on: [push]
-
 jobs:
  sast_scan:
    name: Run Bandit Scan
    runs-on: ubuntu-latest
-
    steps:
    - name: Checkout code
      uses: actions/checkout@v4
-
    - name: Set up Python
      uses: actions/setup-python@v5
      with:
        python-version: 3.13
-
    - name: Install Bandit
      run: pip install bandit
-
    - name: Run Bandit Scan
    # where bandit will scan ( . means in current folder )
      run: bandit -ll -ii -r . -f json -o bandit-report.json
@@ -35,23 +29,19 @@ jobs:
  image_scan:
    name: Build Image and Run Image Scan
    runs-on: ubuntu-latest
-
    steps:
    - name: Checkout code
      uses: actions/checkout@v3
-
    - name: Set up Docker
      uses: docker-practice/actions-setup-docker@v1
      with:
       docker_version: '21.10.7'
-
    - name: Build Docker Image
      run: docker build -f Dockerfile -t myapp:latest .
-
-    - name: Docker Scout Scan
-      run: |
-        curl -fsSL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh -o install-scout.sh
-        sh install-scout.sh
-        echo ${{ secrets.REPO_PWD }} | docker login -u ${{ secrets.REPO_USER }} --password-stdin
-        docker scout quickview
-        docker scout cves
+   - name: Docker Scout Scan
+     run: |
+       curl -fsSL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh -o install-scout.sh
+       sh install-scout.sh
+       echo ${{ secrets.REPO_PWD }} | docker login -u ${{ secrets.REPO_USER }} --password-stdin
+       docker scout quickview
+       docker scout cves
