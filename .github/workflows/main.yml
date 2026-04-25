@@ -53,6 +53,7 @@ jobs:
        command: quickview,cves
        only-severities: critical,high
        sarif-file: scout-report.sarif
+# second method to run docker scout scan using the docker scout action, this is the recommended method because it is more efficient and easier to use than the command line interface
 
    - name: Upload Artifact
      uses: actions/upload-artifact@v3
